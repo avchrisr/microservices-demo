@@ -29,7 +29,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-### Other ###
-*.log
-my-server-log*
