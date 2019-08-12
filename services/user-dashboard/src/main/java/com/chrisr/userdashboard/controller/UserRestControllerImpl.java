@@ -34,4 +34,9 @@ public class UserRestControllerImpl implements UserRestController {
     public ResponseEntity<ApiResponse> registerUser(@Valid SignUpRequest signUpRequest) {
         return userServiceProxy.registerUser(signUpRequest);
     }
+
+    @Override
+    public ResponseEntity<byte[]> downloadPDF() {
+        return userServiceProxy.downloadPDF();
+    }
 }

@@ -28,4 +28,7 @@ public interface UserRestController {
 
     @PostMapping("/register")
     ResponseEntity<ApiResponse> registerUser(@Valid @RequestBody SignUpRequest signUpRequest);
+
+    @GetMapping("/downloadPDF")
+    ResponseEntity<byte[]> downloadPDF();
 }
