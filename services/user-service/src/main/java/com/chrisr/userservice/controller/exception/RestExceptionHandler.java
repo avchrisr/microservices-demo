@@ -1,4 +1,4 @@
-package com.chrisr.userservice.controller;
+package com.chrisr.userservice.controller.exception;
 
 import com.chrisr.userservice.exception.AppException;
 import com.chrisr.userservice.exception.UserAlreadyExistsException;

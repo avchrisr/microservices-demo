@@ -1,4 +1,4 @@
-package com.chrisr.userdashboard.controller;
+package com.chrisr.userdashboard.controller.exception;
 
 import com.chrisr.userdashboard.exception.AppException;
 import com.chrisr.userdashboard.exception.BadRequestException;

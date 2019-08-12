@@ -25,4 +25,8 @@ public interface UserServiceProxy {
 
     @PostMapping("/register")
     ResponseEntity<ApiResponse> registerUser(@Valid @RequestBody SignUpRequest signUpRequest);
+
+
+    // TODO: try requesting for a PDF image file
+
 }
