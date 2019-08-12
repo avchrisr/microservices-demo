@@ -33,6 +33,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // don't authenticate requests from following URL patterns. (i.e. allow anonymous resource requests)
                 .authorizeRequests()
+                // allow ALL urls
+//				.antMatchers("/**").permitAll()
 //				.antMatchers("/templates/**").permitAll()
 //				.antMatchers("/peloton/**").permitAll()
                 .antMatchers(

@@ -1,4 +1,4 @@
-package com.chrisr.userservice.exception;
+package com.chrisr.userdashboard.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
