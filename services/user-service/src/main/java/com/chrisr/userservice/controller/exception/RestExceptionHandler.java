@@ -15,6 +15,11 @@ import java.time.LocalDateTime;
 public class RestExceptionHandler {
 
     @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleException(Exception ex) {
+        return new ResponseEntity<>(generateErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(AppException ex) {
         return new ResponseEntity<>(generateErrorResponse(ex.getHttpStatus(), ex.getMessage()), ex.getHttpStatus());
     }

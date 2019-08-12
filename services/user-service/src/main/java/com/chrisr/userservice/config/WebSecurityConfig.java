@@ -50,6 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.js").permitAll()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/public/**").permitAll()
+                .antMatchers("/actuator/**").permitAll()
                 .antMatchers("/users/**").permitAll()
 //				.antMatchers("/user/checkUsernameAvailability", "/user/checkEmailAvailability").permitAll()
 //				.antMatchers(HttpMethod.GET, "/polls/**", "/users/**").permitAll()

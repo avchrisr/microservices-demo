@@ -1,9 +1,6 @@
 package com.chrisr.userdashboard.controller.exception;
 
-import com.chrisr.userdashboard.exception.AppException;
-import com.chrisr.userdashboard.exception.BadRequestException;
-import com.chrisr.userdashboard.exception.UserAlreadyExistsException;
-import com.chrisr.userdashboard.exception.UserNotFoundException;
+import com.chrisr.userdashboard.exception.*;
 import com.chrisr.userdashboard.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +31,11 @@ public class RestExceptionHandler {
 //    public ResponseEntity<ErrorResponse> handleException(IllegalArgumentException ex) {
 //        return new ResponseEntity<>(generateErrorResponse(ex.getHttpStatus(), ex.getMessage()), ex.getHttpStatus());
 //    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleException(UnauthorizedException ex) {
+        return new ResponseEntity<>(generateErrorResponse(ex.getHttpStatus(), ex.getMessage()), ex.getHttpStatus());
+    }
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(UserAlreadyExistsException ex) {

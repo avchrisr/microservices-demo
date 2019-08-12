@@ -1,6 +1,7 @@
 package com.chrisr.userdashboard.controller.exception;
 
 import com.chrisr.userdashboard.exception.BadRequestException;
+import com.chrisr.userdashboard.exception.UnauthorizedException;
 import com.chrisr.userdashboard.exception.UserAlreadyExistsException;
 import com.chrisr.userdashboard.exception.UserNotFoundException;
 import feign.Response;
@@ -23,6 +24,8 @@ public class FeignErrorDecoder implements ErrorDecoder {
         switch (response.status()) {
             case 400:
                 return new BadRequestException("Request not valid..");
+            case 401:
+                return new UnauthorizedException("Unauthorized..");
             case 404:
                 return new UserNotFoundException("User not found..");
             case 409:
