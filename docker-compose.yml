@@ -3,7 +3,7 @@ version: '3.7'
 services:
 
   config-server:
-    container_name: config-server
+    container_name: ${CONFIG_SERVER_CONTAINER_NAME}
     build:
       context: services/config-server
       dockerfile: Dockerfile-ConfigServer
@@ -19,7 +19,22 @@ services:
     #volumes:
     #  - config-repo:/var/lib/config-repo
     environment:
-      - USER_HOME=${USER_HOME}
+      - CONFIG_SERVER_USER_HOME=${CONFIG_SERVER_USER_HOME}
+
+  eureka-server:
+    container_name: ${EUREKA_SERVER_CONTAINER_NAME}
+    build:
+      context: services/eureka-server
+      dockerfile: Dockerfile-EurekaServer
+      args:
+        - JAR_FILE=target/eureka-server-0.0.1-SNAPSHOT.jar
+    ports:
+      - 20002:20002
+    networks:
+      - microservices-demo-network
+    environment:
+      - CONFIG_SERVER_CONTAINER_NAME=${CONFIG_SERVER_CONTAINER_NAME}
+      - EUREKA_SERVER_CONTAINER_NAME=${EUREKA_SERVER_CONTAINER_NAME}
 
 networks:
   microservices-demo-network:
