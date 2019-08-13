@@ -10,7 +10,7 @@ services:
       args:
         - JAR_FILE=target/config-server-0.0.1-SNAPSHOT.jar
     #image: config-server:latest        # if not commented, and if the image:tag exists, image will be used instead of building new image (microservices-demo_config-server:latest)
-    #expose:            # I think this is redundant and it's still reachable via 20001 from other containers. is it because of the docker network?
+    #expose:            # I think this is redundant and it's still reachable via 20001 from other containers. is it because of the docker network? --> YES
     #  - 20001
     ports:
       - 20001:20001     # for DEV purpose
@@ -38,6 +38,43 @@ services:
     depends_on:
       - config-server
 
+  api-gateway-zuul-server:
+    container_name: api-gateway-zuul-server-container
+    build:
+      context: services/api-gateway-zuul
+      dockerfile: Dockerfile-ApiGatewayZuul
+      args:
+        - JAR_FILE=target/api-gateway-zuul-0.0.1-SNAPSHOT.jar
+    ports:
+      - 20000:20000     # for DEV purpose
+    networks:
+      - microservices-demo-network
+    environment:
+      - CONFIG_SERVER_CONTAINER_NAME=${CONFIG_SERVER_CONTAINER_NAME}
+      - EUREKA_SERVER_CONTAINER_NAME=${EUREKA_SERVER_CONTAINER_NAME}
+    depends_on:
+      - config-server
+      - eureka-server
+
+  user-dashboard:
+    container_name: user-dashboard-container
+    build:
+      context: services/user-dashboard
+      dockerfile: Dockerfile-UserDashboard
+      args:
+        - JAR_FILE=target/user-dashboard-0.0.1-SNAPSHOT.jar
+    ports:
+      - 20004:20004     # for DEV purpose
+    networks:
+      - microservices-demo-network
+    environment:
+      - CONFIG_SERVER_CONTAINER_NAME=${CONFIG_SERVER_CONTAINER_NAME}
+      - EUREKA_SERVER_CONTAINER_NAME=${EUREKA_SERVER_CONTAINER_NAME}
+    entrypoint: /docker-entrypoint-user-dashboard.sh
+    depends_on:
+      - config-server
+      - eureka-server
+
   user-service:
     container_name: user-service-container
     build:
@@ -55,6 +92,7 @@ services:
       - POSTGRES_DB_JDBC_URL=${POSTGRES_DB_JDBC_URL}
       - POSTGRES_DB_USERNAME=${POSTGRES_DB_USERNAME}
       - POSTGRES_DB_PASSWORD=${POSTGRES_DB_PASSWORD}
+    entrypoint: /docker-entrypoint-user-service.sh
     depends_on:
       - config-server
       - eureka-server
@@ -66,7 +104,7 @@ services:
     # restart: always      # restart whenever changes are made in docker-compose.yml. 'no' is default
     ports:
       - 15432:5432       # for DEV purpose only
-    # expose:              # Q) might not be needed like the -service container?
+    # expose:              # no need for this
     #  - 5432
     environment:
       - POSTGRES_USER=${POSTGRES_DB_USERNAME}     # if not provided, 'postgres' will be used
