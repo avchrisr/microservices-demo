@@ -29,12 +29,53 @@ services:
       args:
         - JAR_FILE=target/eureka-server-0.0.1-SNAPSHOT.jar
     ports:
-      - 20002:20002
+      - 20002:20002     # for DEV purpose
     networks:
       - microservices-demo-network
     environment:
       - CONFIG_SERVER_CONTAINER_NAME=${CONFIG_SERVER_CONTAINER_NAME}
       - EUREKA_SERVER_CONTAINER_NAME=${EUREKA_SERVER_CONTAINER_NAME}
+    depends_on:
+      - config-server
+
+  user-service:
+    container_name: user-service-container
+    build:
+      context: services/user-service
+      dockerfile: Dockerfile-UserService
+      args:
+        - JAR_FILE=target/user-service-0.0.1-SNAPSHOT.jar
+    ports:
+      - 20003:20003     # for DEV purpose
+    networks:
+      - microservices-demo-network
+    environment:
+      - CONFIG_SERVER_CONTAINER_NAME=${CONFIG_SERVER_CONTAINER_NAME}
+      - EUREKA_SERVER_CONTAINER_NAME=${EUREKA_SERVER_CONTAINER_NAME}
+      - POSTGRES_DB_JDBC_URL=${POSTGRES_DB_JDBC_URL}
+      - POSTGRES_DB_USERNAME=${POSTGRES_DB_USERNAME}
+      - POSTGRES_DB_PASSWORD=${POSTGRES_DB_PASSWORD}
+    depends_on:
+      - config-server
+      - eureka-server
+      - postgres
+
+  postgres:
+    container_name: ${POSTGRES_DB_CONTAINER_NAME}
+    image: postgres:11   # postgres:11-alpine
+    # restart: always      # restart whenever changes are made in docker-compose.yml. 'no' is default
+    ports:
+      - 15432:5432       # for DEV purpose only
+    # expose:              # Q) might not be needed like the -service container?
+    #  - 5432
+    environment:
+      - POSTGRES_USER=${POSTGRES_DB_USERNAME}     # if not provided, 'postgres' will be used
+      - POSTGRES_PASSWORD=${POSTGRES_DB_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB_NAME}       # if not provided, it'll be the same as postgres username
+    #    volumes:  # temporary. might really need to create a 3rd repo for docker-compose.yml and postgres, nginx configs, etc. ex) kareo-template-util-docker-compose
+    #      - '/Users/chrisr/MyProjects/react-projects/lottery/pgdata:/var/lib/postgresql/data'
+    networks:
+      - microservices-demo-network
 
 networks:
   microservices-demo-network:
