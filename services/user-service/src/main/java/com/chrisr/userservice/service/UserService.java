@@ -62,6 +62,11 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
+    public User getUserByUsername(String username) {
+        return userRepository.getUserByUsername(username);
+    }
+
+    @Transactional(readOnly = true)
     public User getUserById(long id) {
         return userRepository.getUserById(id);
     }

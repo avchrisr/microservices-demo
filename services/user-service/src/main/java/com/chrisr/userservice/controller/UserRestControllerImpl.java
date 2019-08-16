@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -47,10 +48,21 @@ public class UserRestControllerImpl implements UserRestController {
     }
 
     @Override
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.getAllUsers();
-        for (User user : users) {
-            removeSensitiveInfoFromUser(user);
+    public ResponseEntity<List<User>> getUsers(String username, String isAuth) {
+        List<User> users;
+
+        if (username != null && !username.isBlank()) {
+            users = new ArrayList<>();
+            User user = userService.getUserByUsername(username);
+            users.add(user);
+        } else {
+            users = userService.getAllUsers();
+        }
+
+        if (!"true".equalsIgnoreCase(isAuth)) {
+            for (User user : users) {
+                removeSensitiveInfoFromUser(user);
+            }
         }
         return ResponseEntity.ok().body(users);
     }

@@ -17,13 +17,13 @@ public interface UserRestController {
     // not specifying path will allow both "" and "/" paths
     // i.e.) specifying "/" will only allow "/" path, and not ""
     @GetMapping
-    ResponseEntity<List<User>> findAllUsers();
+    ResponseEntity<List<User>> findUsers(@RequestParam(required = false) String username, @RequestParam(required = false, defaultValue = "false") String isAuth);
 
     @GetMapping("/{id}")
     ResponseEntity<User> findUserById(@PathVariable(name = "id") long id);
 
-    @PostMapping("/register")
-    ResponseEntity<ApiResponse> registerUser(@Valid @RequestBody SignUpRequest signUpRequest);
+//    @PostMapping("/register")
+//    ResponseEntity<ApiResponse> registerUser(@Valid @RequestBody SignUpRequest signUpRequest);
 
     @GetMapping("/downloadPDF")
     ResponseEntity<byte[]> downloadPDF();

@@ -124,8 +124,8 @@ services:
       - ${NGINX_PORT}:80
     volumes:
       #- './public:/srv/www/static'
-      - './config/nginx/nginx.conf:/etc/nginx/nginx.conf'             # where http configs are done, including load balancing
-      - './config/nginx/default.conf:/etc/nginx/conf.d/default.conf'  # where reverse proxy configs are done
+      - './devops/config/nginx/nginx.conf:/etc/nginx/nginx.conf'             # where http configs are done, including load balancing
+      - './devops/config/nginx/default.conf:/etc/nginx/conf.d/default.conf'  # where reverse proxy configs are done
     networks:
       - microservices-demo-network
     depends_on:

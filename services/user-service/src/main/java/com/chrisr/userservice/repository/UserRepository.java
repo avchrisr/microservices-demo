@@ -111,7 +111,6 @@ public class UserRepository extends RepositoryBase {
     // ---------------------------
     // SQL QUERIES AND MAPPERS
     // ---------------------------
-
     private static final String GET_USERS_QUERY = "SELECT data FROM users";
     private static final String GET_USER_BY_ID_QUERY = "SELECT data FROM users WHERE (data->>'id')::bigint = :id";
     private static final String GET_USER_BY_USERNAME_QUERY = "SELECT data FROM users WHERE data->>'username' = :username";

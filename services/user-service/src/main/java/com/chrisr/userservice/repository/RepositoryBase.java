@@ -4,8 +4,6 @@ import com.chrisr.userservice.repository.entity.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -17,20 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class RepositoryBase {
+public abstract class RepositoryBase {
 
     private static final Logger logger = LoggerFactory.getLogger(RepositoryBase.class);
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-
-    // TODO: make this base class abstract and require other class to always extend it? then, this constructor does not need to be @Autowired
-    //  because autowiring is done in the child class extending this base parent class ???
-
-
-    @Autowired
-    public RepositoryBase(@Qualifier("postgresJdbcTemplate") NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    public RepositoryBase(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
